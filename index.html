@@ -1,1 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quantum Warrior Page</title>
+<style>
+    /* Reset default margins and padding */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
 
+    body {
+        background-color: #0d1b3d;
+        color: #ffffff;
+        overflow-x: hidden;
+    }
+
+    /* Full-screen video */
+    #introVideo {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+    }
+
+    /* Container for content below video */
+    .content {
+        position: relative;
+        padding: 100vh 5%; /* Start below the video */
+        background-color: #0d1b3d;
+    }
+
+    .row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 50px;
+        flex-wrap: wrap;
+    }
+
+    .card {
+        background-color: #14295c;
+        flex: 1 1 calc(23% - 20px); /* 4 per row with spacing */
+        margin: 10px;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    .card img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-bottom: 10px;
+    }
+
+    .card h3 {
+        margin-bottom: 5px;
+        font-size: 18px;
+    }
+
+    .card p {
+        font-size: 14px;
+        color: #a0c4ff;
+    }
+
+    /* Adjust for 3rd row with 2 items */
+    .row.two-cards .card {
+        flex: 1 1 calc(48% - 20px);
+    }
+
+    /* Side panel */
+    #sidePanel {
+        position: fixed;
+        top: 0;
+        right: -400px;
+        width: 400px;
+        height: 100%;
+        background-color: #0d1b3d;
+        box-shadow: -2px 0 10px rgba(0,0,0,0.5);
+        padding: 30px;
+        transition: right 0.3s;
+        overflow-y: auto;
+        z-index: 10;
+    }
+
+    #sidePanel.active {
+        right: 0;
+    }
+
+    #sidePanel img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        display: block;
+        margin: 0 auto 20px auto;
+    }
+
+    #sidePanel h2 {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    #sidePanel h4 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: normal;
+        color: #a0c4ff;
+    }
+
+    #sidePanel p {
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    #closePanel {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background-color: #14295c;
+        border: none;
+        color: #ffffff;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    @media (max-width: 900px) {
+        .row {
+            flex-direction: column;
+            align-items: center;
+        }
+        .card {
+            flex: 1 1 80%;
+            margin: 10px 0;
+        }
+        .row.two-cards .card {
+            flex: 1 1 80%;
+        }
+    }
+</style>
+</head>
+<body>
+
+<!-- Full-screen video -->
+<video id="introVideo" autoplay muted loop>
+    <source src="your-video.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+<!-- Main content -->
+<div class="content">
+
+    <!-- First row: 4 cards -->
+    <div class="row">
+        <div class="card" onclick="openPanel(this)">
+            <img src="https://via.placeholder.com/100" alt="Person 1">
+            <h3>Person 1</h3>
+            <p>Title 1</p>
+        </div>
+        <div class="card" onclick="openPanel(this)">
+            <img src="https://via.placeholder.com/100" alt="Person 2">
+            <h3>Person 2</h3>
+            <p>Title 2</p>
+        </div>
+        <div class="card" onclick="openPanel(this)">
+            <img src="https://via.placeholder.com/100" alt="Person 3">
+            <h3>Person 3</h3>
+            <p>Title 3</p>
+        </div>
+        <div class="card" onclick="openPanel(this)">
+            <img src="https://via.placeholder.com/100" alt="Person 4">
+            <h3>Person 4</h3>
+            <p>Title 4</p>
+        </div>
+    </div>
+
+    <!-- Second row: 4 cards -->
+    <div class="row">
+        <div class="card" onclick="openPanel(this)">
+            <img src="https://via.placeholder.com/100" alt="Person 5">
+            <h3>Person 5</h3>
+            <p>Title 5</p>
+        </div>
+        <div class="card" onclick="openPanel(this)">
+            <img src="https://via.placeholder.com/100" alt="Person 6">
+            <h3>Person 6</h3>
+            <p>Title 6</p>
+        </div>
+        <div class="card" onclick="openPanel(this)">
+            <img src="https://via.placeholder.com/100" alt="Person 7">
+            <h3>Person 7</h3>
+            <p>Title 7</p>
+        </div>
+        <div class="card" onclick="openPanel(this)">
+            <img src="https://via.placeholder.com/100" alt="Person 8">
+            <h3>Person 8</h3>
+            <p>Title 8</p>
+        </div>
+    </div>
+
+    <!-- Third row: 2 cards -->
+    <div class="row two-cards">
+        <div class="card" onclick="openPanel(this)">
+            <img src="https://via.placeholder.com/100" alt="Person 9">
+            <h3>Person 9</h3>
+            <p>Title 9</p>
+        </div>
+        <div class="card" onclick="openPanel(this)">
+            <img src="https://via.placeholder.com/100" alt="Person 10">
+            <h3>Person 10</h3>
+            <p>Title 10</p>
+        </div>
+    </div>
+</div>
+
+<!-- Side Panel -->
+<div id="sidePanel">
+    <button id="closePanel" onclick="closePanel()">Close</button>
+    <img id="panelImage" src="" alt="">
+    <h2 id="panelName"></h2>
+    <h4 id="panelTitle"></h4>
+    <p id="panelDescription">This is a description area for the person. Replace this with detailed information as needed.</p>
+</div>
+
+<script>
+    function openPanel(card) {
+        const imgSrc = card.querySelector('img').src;
+        const name = card.querySelector('h3').textContent;
+        const title = card.querySelector('p').textContent;
+
+        document.getElementById('panelImage').src = imgSrc;
+        document.getElementById('panelName').textContent = name;
+        document.getElementById('panelTitle').textContent = title;
+
+        document.getElementById('sidePanel').classList.add('active');
+    }
+
+    function closePanel() {
+        document.getElementById('sidePanel').classList.remove('active');
+    }
+</script>
+
+</body>
+</html>
