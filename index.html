@@ -119,21 +119,33 @@
             <img src="images/randomdude.jpg" alt="Person 1">
             <h3>Vibhava Bhat</h3>
             <p>Design and Code Team</p>
+            <p class="long-desc" style="display:none;">
+                Vibhava is a front-end developer and designer who focuses on integrating creative design with clean code.
+            </p>
         </div>
         <div class="card" onclick="openPanel(this)">
             <img src="https://via.placeholder.com/100" alt="Person 2">
             <h3>Person 2</h3>
             <p>Title 2</p>
+            <p class="long-desc" style="display:none;">
+                Person 2 contributes to the project with strategic planning and technical insights.
+            </p>
         </div>
         <div class="card" onclick="openPanel(this)">
             <img src="https://via.placeholder.com/100" alt="Person 3">
             <h3>Person 3</h3>
             <p>Title 3</p>
+            <p class="long-desc" style="display:none;">
+                Person 3 specializes in data analysis and system optimization to improve workflow efficiency.
+            </p>
         </div>
         <div class="card" onclick="openPanel(this)">
             <img src="https://via.placeholder.com/100" alt="Person 4">
             <h3>Person 4</h3>
             <p>Title 4</p>
+            <p class="long-desc" style="display:none;">
+                Person 4 is responsible for content creation and ensuring communication clarity across teams.
+            </p>
         </div>
     </div>
 
@@ -142,21 +154,33 @@
             <img src="https://via.placeholder.com/100" alt="Person 5">
             <h3>Person 5</h3>
             <p>Title 5</p>
+            <p class="long-desc" style="display:none;">
+                Person 5 focuses on research and development for new features and tools.
+            </p>
         </div>
         <div class="card" onclick="openPanel(this)">
             <img src="https://via.placeholder.com/100" alt="Person 6">
             <h3>Person 6</h3>
             <p>Title 6</p>
+            <p class="long-desc" style="display:none;">
+                Person 6 manages testing and quality assurance to maintain high product standards.
+            </p>
         </div>
         <div class="card" onclick="openPanel(this)">
             <img src="https://via.placeholder.com/100" alt="Person 7">
             <h3>Person 7</h3>
             <p>Title 7</p>
+            <p class="long-desc" style="display:none;">
+                Person 7 is in charge of backend infrastructure and database optimization.
+            </p>
         </div>
         <div class="card" onclick="openPanel(this)">
             <img src="https://via.placeholder.com/100" alt="Person 8">
             <h3>Person 8</h3>
             <p>Title 8</p>
+            <p class="long-desc" style="display:none;">
+                Person 8 ensures smooth integration of cross-platform features and APIs.
+            </p>
         </div>
     </div>
 
@@ -165,11 +189,17 @@
             <img src="https://via.placeholder.com/100" alt="Person 9">
             <h3>Person 9</h3>
             <p>Title 9</p>
+            <p class="long-desc" style="display:none;">
+                Person 9 coordinates user experience research to enhance interface design.
+            </p>
         </div>
         <div class="card" onclick="openPanel(this)">
             <img src="https://via.placeholder.com/100" alt="Person 10">
             <h3>Person 10</h3>
             <p>Title 10</p>
+            <p class="long-desc" style="display:none;">
+                Person 10 oversees deployment processes and ensures system stability.
+            </p>
         </div>
     </div>
 
@@ -180,13 +210,19 @@
             <img src="https://via.placeholder.com/150" alt="Mentor 1">
             <h3>Mentor 1</h3>
             <h4>Lead Advisor</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget sem vel mauris fermentum faucibus.</p>
+            <p>Lorem ipsum short text</p>
+            <p class="long-desc" style="display:none;">
+                Mentor 1 guides the team in strategic decisions, overseeing all aspects of planning and execution.
+            </p>
         </div>
         <div class="mentor-card" onclick="openPanel(this)">
             <img src="https://via.placeholder.com/150" alt="Mentor 2">
             <h3>Mentor 2</h3>
             <h4>Senior Consultant</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget sem vel mauris fermentum faucibus.</p>
+            <p>Lorem ipsum short text</p>
+            <p class="long-desc" style="display:none;">
+                Mentor 2 provides expert advice on technical approaches and ensures project alignment with goals.
+            </p>
         </div>
     </div>
 </div>
@@ -204,7 +240,7 @@
         const img = card.querySelector('img') ? card.querySelector('img').src : '';
         const name = card.querySelector('h3') ? card.querySelector('h3').textContent : '';
         const title = card.querySelector('h4, p') ? (card.querySelector('h4') ? card.querySelector('h4').textContent : card.querySelector('p').textContent) : '';
-        const desc = card.querySelector('p') ? card.querySelector('p').textContent : 'Description not available.';
+        const desc = card.querySelector('.long-desc') ? card.querySelector('.long-desc').textContent : 'Description not available.';
 
         if(window.innerWidth <= 900 || card.classList.contains('card')) {
             document.getElementById('panelImage').src = img;
