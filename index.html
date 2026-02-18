@@ -8,19 +8,24 @@
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
     body { background-color: #99ccff; color: #001f4d; overflow-x: hidden; }
 
-    /* Rotating image background */
-    #rotatingBackground {
-        position: fixed;
-        top: 0;
-        left: 0;
+    /* Slideshow at top */
+    #slideshowContainer {
         width: 100%;
-        height: 100%;
+        max-height: 400px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+    #slideshowContainer img {
+        width: 100%;
+        max-height: 400px;
         object-fit: cover;
-        z-index: -1;
         transition: opacity 1s ease-in-out;
     }
 
-    .content { position: relative; padding: 0; background-color: rgba(153,204,255,0.5); }
+    .content { position: relative; padding: 0 5%; }
 
     h1, h2 { text-align: center; margin-bottom: 40px; }
     h1 { font-size: 36px; color: #001f4d; margin-top:10vh; }
@@ -29,30 +34,24 @@
     /* Row perspective for 3D tilt */
     .row, .mentor-row { display: flex; justify-content: space-between; flex-wrap: wrap; perspective: 1000px; }
 
-    /* Card styling with 3D lift & shadow */
+    /* Card styling with shadow & transition */
     .card, .mentor-card {
         background-color: #3399ff;
         flex: 1 1 calc(23% - 20px);
         margin: 10px;
-        padding: 20px 20px 40px 20px; /* bottom padding */
+        padding: 20px 20px 40px 20px;
         border-radius: 10px;
         text-align: center;
         cursor: pointer;
         color: #ffffff;
         box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        transition: transform 0.1s ease, box-shadow 0.3s ease;
         transform-style: preserve-3d;
-    }
-
-    /* Hover effect: lift & tilt */
-    .card:hover, .mentor-card:hover {
-        transform: translateY(-10px) rotateX(5deg) rotateY(5deg) scale(1.03);
-        box-shadow: 0 20px 30px rgba(0,0,0,0.3);
     }
 
     /* Press effect */
     .card:active, .mentor-card:active {
-        transform: translateY(0) rotateX(0) rotateY(0) scale(0.97);
+        transform: scale(0.97) !important;
         box-shadow: 0 6px 12px rgba(0,0,0,0.2);
     }
 
@@ -60,15 +59,10 @@
     .card h3 { margin-bottom: 5px; font-size: 18px; }
     .card p { font-size: 14px; color: #e6f0ff; }
 
-    .row.two-cards {
-        justify-content: center; /* center members 9 and 10 */
-    }
-    .row.two-cards .card { flex: 1 1 calc(23% - 20px); } /* same width as others */
+    .row.two-cards { justify-content: center; }
+    .row.two-cards .card { flex: 1 1 calc(23% - 20px); }
 
-    /* Mentor cards */
-    .mentor-card {
-        flex: 1 1 calc(48% - 20px);
-    }
+    .mentor-card { flex: 1 1 calc(48% - 20px); }
     .mentor-card img { width: 150px; height: 150px; border-radius: 50%; margin-bottom: 15px; }
     .mentor-card h3 { font-size: 22px; margin-bottom: 5px; }
     .mentor-card h4 { font-size: 16px; margin-bottom: 15px; font-weight: normal; color: #e6f0ff; }
@@ -115,10 +109,12 @@
 </head>
 <body>
 
-<!-- Rotating background images -->
-<img id="rotatingBackground" src="images/indeximg1.jpg" alt="Background">
-
 <div class="content">
+    <!-- Slideshow at top -->
+    <div id="slideshowContainer">
+        <img id="slideshowImage" src="images/indeximg1.jpg" alt="Slideshow">
+    </div>
+
     <h1>Members</h1>
 
     <!-- Member rows -->
@@ -149,33 +145,6 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="card" onclick="openPanel(this)">
-            <img src="https://via.placeholder.com/100" alt="Person 5">
-            <h3>Person 5</h3>
-            <p>Title 5</p>
-            <p class="long-desc" style="display:none;">Person 5 focuses on research and development for new features and tools.</p>
-        </div>
-        <div class="card" onclick="openPanel(this)">
-            <img src="https://via.placeholder.com/100" alt="Person 6">
-            <h3>Person 6</h3>
-            <p>Title 6</p>
-            <p class="long-desc" style="display:none;">Person 6 manages testing and quality assurance to maintain high product standards.</p>
-        </div>
-        <div class="card" onclick="openPanel(this)">
-            <img src="https://via.placeholder.com/100" alt="Person 7">
-            <h3>Person 7</h3>
-            <p>Title 7</p>
-            <p class="long-desc" style="display:none;">Person 7 is in charge of backend infrastructure and database optimization.</p>
-        </div>
-        <div class="card" onclick="openPanel(this)">
-            <img src="https://via.placeholder.com/100" alt="Person 8">
-            <h3>Person 8</h3>
-            <p>Title 8</p>
-            <p class="long-desc" style="display:none;">Person 8 ensures smooth integration of cross-platform features and APIs.</p>
-        </div>
-    </div>
-
     <div class="row two-cards">
         <div class="card" onclick="openPanel(this)">
             <img src="https://via.placeholder.com/100" alt="Person 9">
@@ -192,7 +161,6 @@
     </div>
 
     <h2>Mentors</h2>
-
     <div class="mentor-row">
         <div class="mentor-card" onclick="openPanel(this)">
             <img src="https://via.placeholder.com/150" alt="Mentor 1">
@@ -220,16 +188,16 @@
 </div>
 
 <script>
-    // Rotating background
-    const images = ['images/indeximg1.jpg','images/indeximg2.jpg','images/indeximg3.jpg'];
+    // Slideshow
+    const slideshowImages = ['images/indeximg1.jpg','images/indeximg2.jpg','images/indeximg3.jpg'];
     let current = 0;
-    const bg = document.getElementById('rotatingBackground');
+    const slideshow = document.getElementById('slideshowImage');
     setInterval(() => {
-        current = (current + 1) % images.length;
-        bg.style.opacity = 0;
+        current = (current + 1) % slideshowImages.length;
+        slideshow.style.opacity = 0;
         setTimeout(() => {
-            bg.src = images[current];
-            bg.style.opacity = 1;
+            slideshow.src = slideshowImages[current];
+            slideshow.style.opacity = 1;
         }, 500);
     }, 5000);
 
@@ -247,6 +215,32 @@
     }
 
     function closePanel() { document.getElementById('sidePanel').classList.remove('active'); }
+
+    // Mouse-responsive 3D tilt
+    const cards = document.querySelectorAll('.card, .mentor-card');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left; 
+            const y = e.clientY - rect.top;  
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -10; // tilt limit
+            const rotateY = ((x - centerX) / centerX) * 10;
+            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+            card.style.boxShadow = '0 20px 30px rgba(0,0,0,0.3)';
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+            card.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
+        });
+        card.addEventListener('mousedown', () => {
+            card.style.transform += ' scale(0.97)';
+        });
+        card.addEventListener('mouseup', () => {
+            card.style.transform = card.style.transform.replace(' scale(0.97)','');
+        });
+    });
 </script>
 
 </body>
