@@ -6,7 +6,7 @@
 <title>Quantum Warrior Members & Mentors</title>
 <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-    body { background-color: #0d1b3d; color: #ffffff; overflow-x: hidden; }
+    body { background-color: #e6f0ff; color: #0d1b3d; overflow-x: hidden; }
 
     /* Full-screen video */
     #introVideo {
@@ -14,15 +14,15 @@
         height: 100%;
     }
 
-    .content { position: relative; padding: 0 5%; background-color: #0d1b3d; }
+    .content { position: relative; padding: 0; background-color: #e6f0ff; }
 
     h1, h2 { text-align: center; margin-bottom: 40px; }
-    h1 { font-size: 36px; color: #a0c4ff; margin-top:10vh; }
-    h2 { font-size: 30px; color: #a0c4ff; margin-top: 80px; margin-bottom: 40px; }
+    h1 { font-size: 36px; color: #003366; margin-top:10vh; }
+    h2 { font-size: 30px; color: #003366; margin-top: 80px; margin-bottom: 40px; }
 
     .row { display: flex; justify-content: space-between; margin-bottom: 50px; flex-wrap: wrap; }
     .card {
-        background-color: #14295c;
+        background-color: #cce0ff;
         flex: 1 1 calc(23% - 20px);
         margin: 10px;
         padding: 20px;
@@ -30,19 +30,20 @@
         text-align: center;
         cursor: pointer;
         transition: transform 0.2s;
+        color: #003366;
     }
     .card:hover { transform: scale(1.05); }
 
     .card img { width: 100px; height: 100px; border-radius: 50%; margin-bottom: 10px; object-fit: cover; }
     .card h3 { margin-bottom: 5px; font-size: 18px; }
-    .card p { font-size: 14px; color: #a0c4ff; }
+    .card p { font-size: 14px; color: #003366; }
 
     .row.two-cards .card { flex: 1 1 calc(23% - 20px); }
 
     /* Mentor cards */
     .mentor-row { display: flex; justify-content: space-between; flex-wrap: wrap; margin-bottom: 50px; }
     .mentor-card {
-        background-color: #14295c;
+        background-color: #cce0ff;
         flex: 1 1 calc(48% - 20px);
         margin: 10px;
         padding: 20px;
@@ -50,10 +51,11 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        color: #003366;
     }
     .mentor-card img { width: 150px; height: 150px; border-radius: 50%; margin-bottom: 15px; }
     .mentor-card h3 { font-size: 22px; margin-bottom: 5px; }
-    .mentor-card h4 { font-size: 16px; margin-bottom: 15px; font-weight: normal; color: #a0c4ff; }
+    .mentor-card h4 { font-size: 16px; margin-bottom: 15px; font-weight: normal; color: #003366; }
     .mentor-card p { font-size: 14px; line-height: 1.6; text-align: center; }
 
     /* Side panel */
@@ -63,34 +65,35 @@
         right: -400px;
         width: 400px;
         height: 100%;
-        background-color: #0d1b3d;
-        box-shadow: -2px 0 10px rgba(0,0,0,0.5);
-        padding: 30px;
+        background-color: #e6f0ff;
+        box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+        padding: 0;
         transition: right 0.3s;
         overflow-y: auto;
         z-index: 10;
+        color: #003366;
     }
     #sidePanel.active { right: 0; }
-    #sidePanel img { width: 150px; height: 150px; border-radius: 50%; display: block; margin: 0 auto 20px auto; }
+    #sidePanel img { width: 150px; height: 150px; border-radius: 50%; display: block; margin: 20px auto; }
     #sidePanel h2 { text-align: center; margin-bottom: 10px; }
-    #sidePanel h4 { text-align: center; margin-bottom: 20px; font-weight: normal; color: #a0c4ff; }
-    #sidePanel p { font-size: 14px; line-height: 1.6; }
+    #sidePanel h4 { text-align: center; margin-bottom: 20px; font-weight: normal; color: #003366; }
+    #sidePanel p { font-size: 14px; line-height: 1.6; padding: 0 10px; }
     #closePanel {
         position: absolute;
         top: 15px;
         right: 15px;
-        background-color: #14295c;
-        border: none;
-        color: #ffffff;
+        background-color: #cce0ff;
+        border: 1px solid #003366;
+        color: #003366;
         padding: 5px 10px;
         cursor: pointer;
         border-radius: 5px;
     }
 
     @media (max-width: 900px) {
-        .row, .mentor-row { flex-direction: column; align-items: center; }
-        .card, .row.two-cards .card, .mentor-card { flex: 1 1 80%; margin: 10px 0; }
-        .mentor-card p { display: none; } /* show in side panel */
+        .row, .mentor-row { flex-direction: column; align-items: center; padding: 0; }
+        .card, .row.two-cards .card, .mentor-card { flex: 1 1 100%; margin: 0; }
+        .mentor-card p { display: none; }
     }
 </style>
 </head>
@@ -103,7 +106,6 @@
 <div class="content">
     <h1>Members</h1>
 
-    <!-- Member rows -->
     <div class="row">
         <div class="card" onclick="openPanel(this)">
             <img src="images/randomdude.jpg" alt="Person 1">
@@ -165,7 +167,6 @@
 
     <h2>Mentors</h2>
 
-    <!-- Mentor rows -->
     <div class="mentor-row">
         <div class="mentor-card" onclick="openPanel(this)">
             <img src="https://via.placeholder.com/150" alt="Mentor 1">
@@ -197,7 +198,6 @@
         const title = card.querySelector('h4, p') ? (card.querySelector('h4') ? card.querySelector('h4').textContent : card.querySelector('p').textContent) : '';
         const desc = card.querySelector('p') ? card.querySelector('p').textContent : 'Description not available.';
 
-        // Detect small screens for mentor cards
         if(window.innerWidth <= 900 || card.classList.contains('card')) {
             document.getElementById('panelImage').src = img;
             document.getElementById('panelName').textContent = name;
