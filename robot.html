@@ -179,7 +179,7 @@ const seasons = [
         front: "images/23_24_front.jpg",
         side: "images/side_2324.jpg",
         back: "images/23_24_front.jpg"
-    }
+    },
     robots: [
       {title:"Alpha", img:"https://via.placeholder.com/60", desc:"Alpha robot 23-24."},
       {title:"Beta", img:"https://via.placeholder.com/60", desc:"Beta robot 23-24."},
@@ -213,7 +213,7 @@ let currentSeasonIndex = 0;
 
 // Update main image
 function changeView(view,btn){
-    document.getElementById("mainImage").src = mainImage[view];
+    document.getElementById("mainImage").src = seasons[currentSeasonIndex].mainImage[view];
     document.querySelectorAll(".view-buttons button").forEach(b=>b.classList.remove("active"));
     btn.classList.add("active");
 }
@@ -268,9 +268,9 @@ function loadSeason(index){
     const robots = seasons[index].robots;
     document.getElementById("mainImage").src = seasons[index].mainImage;
 
-    createRow("row1",1,robots);
-    createRow("row2",-1,robots);
-    createRow("row3",1,robots);
+    createRow("row1",1,seasons[currentSeasonIndex].robots);
+    createRow("row2",-1,seasons[currentSeasonIndex].robots);
+    createRow("row3",1,seasons[currentSeasonIndex].robots);
 }
 
 // Tab click logic
