@@ -17,6 +17,7 @@
         height: 100%;
         object-fit: cover;
         z-index: -1;
+        transition: opacity 1s ease-in-out;
     }
 
     .content { position: relative; padding: 0; background-color: rgba(153,204,255,0.5); }
@@ -25,45 +26,55 @@
     h1 { font-size: 36px; color: #001f4d; margin-top:10vh; }
     h2 { font-size: 30px; color: #001f4d; margin-top: 80px; margin-bottom: 40px; }
 
-    /* Card styling remains unchanged */
-    .row { display: flex; justify-content: space-between; margin-bottom: 50px; flex-wrap: wrap; }
-    .card {
+    /* Row perspective for 3D tilt */
+    .row, .mentor-row { display: flex; justify-content: space-between; flex-wrap: wrap; perspective: 1000px; }
+
+    /* Card styling with 3D lift & shadow */
+    .card, .mentor-card {
         background-color: #3399ff;
         flex: 1 1 calc(23% - 20px);
         margin: 10px;
-        padding: 20px 20px 40px 20px;
+        padding: 20px 20px 40px 20px; /* bottom padding */
         border-radius: 10px;
         text-align: center;
         cursor: pointer;
-        transition: transform 0.2s, background-color 0.2s;
         color: #ffffff;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        transform-style: preserve-3d;
     }
-    .card:hover { transform: scale(1.05); background-color: #66b3ff; }
+
+    /* Hover effect: lift & tilt */
+    .card:hover, .mentor-card:hover {
+        transform: translateY(-10px) rotateX(5deg) rotateY(5deg) scale(1.03);
+        box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+    }
+
+    /* Press effect */
+    .card:active, .mentor-card:active {
+        transform: translateY(0) rotateX(0) rotateY(0) scale(0.97);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
+
     .card img { width: 100px; height: 100px; border-radius: 50%; margin-bottom: 10px; object-fit: cover; }
     .card h3 { margin-bottom: 5px; font-size: 18px; }
     .card p { font-size: 14px; color: #e6f0ff; }
 
-    .row.two-cards .card { flex: 1 1 calc(23% - 20px); }
-
-    .mentor-row { display: flex; justify-content: space-between; flex-wrap: wrap; margin-bottom: 50px; }
-    .mentor-card {
-        background-color: #3399ff;
-        flex: 1 1 calc(48% - 20px);
-        margin: 10px;
-        padding: 20px 20px 40px 20px;
-        border-radius: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        color: #ffffff;
-        transition: transform 0.2s, background-color 0.2s;
+    .row.two-cards {
+        justify-content: center; /* center members 9 and 10 */
     }
-    .mentor-card:hover { transform: scale(1.03); background-color: #66b3ff; }
+    .row.two-cards .card { flex: 1 1 calc(23% - 20px); } /* same width as others */
+
+    /* Mentor cards */
+    .mentor-card {
+        flex: 1 1 calc(48% - 20px);
+    }
     .mentor-card img { width: 150px; height: 150px; border-radius: 50%; margin-bottom: 15px; }
     .mentor-card h3 { font-size: 22px; margin-bottom: 5px; }
     .mentor-card h4 { font-size: 16px; margin-bottom: 15px; font-weight: normal; color: #e6f0ff; }
     .mentor-card p { font-size: 14px; line-height: 1.6; text-align: center; }
 
+    /* Side panel */
     #sidePanel {
         position: fixed;
         top: 0;
@@ -104,12 +115,100 @@
 </head>
 <body>
 
-<!-- Replaces video with rotating images -->
-<img id="rotatingBackground" src="images/bg1.jpg" alt="Background">
+<!-- Rotating background images -->
+<img id="rotatingBackground" src="images/indeximg1.jpg" alt="Background">
 
 <div class="content">
     <h1>Members</h1>
-    <!-- Member rows go here (same as previous HTML with long-desc) -->
+
+    <!-- Member rows -->
+    <div class="row">
+        <div class="card" onclick="openPanel(this)">
+            <img src="images/randomdude.jpg" alt="Person 1">
+            <h3>Vibhava Bhat</h3>
+            <p>Design and Code Team</p>
+            <p class="long-desc" style="display:none;">Vibhava is a front-end developer and designer who focuses on integrating creative design with clean code.</p>
+        </div>
+        <div class="card" onclick="openPanel(this)">
+            <img src="https://via.placeholder.com/100" alt="Person 2">
+            <h3>Person 2</h3>
+            <p>Title 2</p>
+            <p class="long-desc" style="display:none;">Person 2 contributes to the project with strategic planning and technical insights.</p>
+        </div>
+        <div class="card" onclick="openPanel(this)">
+            <img src="https://via.placeholder.com/100" alt="Person 3">
+            <h3>Person 3</h3>
+            <p>Title 3</p>
+            <p class="long-desc" style="display:none;">Person 3 specializes in data analysis and system optimization to improve workflow efficiency.</p>
+        </div>
+        <div class="card" onclick="openPanel(this)">
+            <img src="https://via.placeholder.com/100" alt="Person 4">
+            <h3>Person 4</h3>
+            <p>Title 4</p>
+            <p class="long-desc" style="display:none;">Person 4 is responsible for content creation and ensuring communication clarity across teams.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="card" onclick="openPanel(this)">
+            <img src="https://via.placeholder.com/100" alt="Person 5">
+            <h3>Person 5</h3>
+            <p>Title 5</p>
+            <p class="long-desc" style="display:none;">Person 5 focuses on research and development for new features and tools.</p>
+        </div>
+        <div class="card" onclick="openPanel(this)">
+            <img src="https://via.placeholder.com/100" alt="Person 6">
+            <h3>Person 6</h3>
+            <p>Title 6</p>
+            <p class="long-desc" style="display:none;">Person 6 manages testing and quality assurance to maintain high product standards.</p>
+        </div>
+        <div class="card" onclick="openPanel(this)">
+            <img src="https://via.placeholder.com/100" alt="Person 7">
+            <h3>Person 7</h3>
+            <p>Title 7</p>
+            <p class="long-desc" style="display:none;">Person 7 is in charge of backend infrastructure and database optimization.</p>
+        </div>
+        <div class="card" onclick="openPanel(this)">
+            <img src="https://via.placeholder.com/100" alt="Person 8">
+            <h3>Person 8</h3>
+            <p>Title 8</p>
+            <p class="long-desc" style="display:none;">Person 8 ensures smooth integration of cross-platform features and APIs.</p>
+        </div>
+    </div>
+
+    <div class="row two-cards">
+        <div class="card" onclick="openPanel(this)">
+            <img src="https://via.placeholder.com/100" alt="Person 9">
+            <h3>Person 9</h3>
+            <p>Title 9</p>
+            <p class="long-desc" style="display:none;">Person 9 coordinates user experience research to enhance interface design.</p>
+        </div>
+        <div class="card" onclick="openPanel(this)">
+            <img src="https://via.placeholder.com/100" alt="Person 10">
+            <h3>Person 10</h3>
+            <p>Title 10</p>
+            <p class="long-desc" style="display:none;">Person 10 oversees deployment processes and ensures system stability.</p>
+        </div>
+    </div>
+
+    <h2>Mentors</h2>
+
+    <div class="mentor-row">
+        <div class="mentor-card" onclick="openPanel(this)">
+            <img src="https://via.placeholder.com/150" alt="Mentor 1">
+            <h3>Mentor 1</h3>
+            <h4>Lead Advisor</h4>
+            <p>Lorem ipsum short text</p>
+            <p class="long-desc" style="display:none;">Mentor 1 guides the team in strategic decisions, overseeing all aspects of planning and execution.</p>
+        </div>
+        <div class="mentor-card" onclick="openPanel(this)">
+            <img src="https://via.placeholder.com/150" alt="Mentor 2">
+            <h3>Mentor 2</h3>
+            <h4>Senior Consultant</h4>
+            <p>Lorem ipsum short text</p>
+            <p class="long-desc" style="display:none;">Mentor 2 provides expert advice on technical approaches and ensures project alignment with goals.</p>
+        </div>
+    </div>
 </div>
 
 <div id="sidePanel">
@@ -121,34 +220,30 @@
 </div>
 
 <script>
-    // Image rotator
-    const images = [
-        'images/bg1.jpg',
-        'images/bg2.jpg',
-        'images/bg3.jpg'
-    ];
+    // Rotating background
+    const images = ['images/indeximg1.jpg','images/indeximg2.jpg','images/indeximg3.jpg'];
     let current = 0;
     const bg = document.getElementById('rotatingBackground');
-
     setInterval(() => {
         current = (current + 1) % images.length;
-        bg.src = images[current];
-    }, 1000); // change every 5 seconds
+        bg.style.opacity = 0;
+        setTimeout(() => {
+            bg.src = images[current];
+            bg.style.opacity = 1;
+        }, 500);
+    }, 5000);
 
-    // Panel code
+    // Side panel
     function openPanel(card) {
         const img = card.querySelector('img') ? card.querySelector('img').src : '';
         const name = card.querySelector('h3') ? card.querySelector('h3').textContent : '';
         const title = card.querySelector('h4, p') ? (card.querySelector('h4') ? card.querySelector('h4').textContent : card.querySelector('p').textContent) : '';
         const desc = card.querySelector('.long-desc') ? card.querySelector('.long-desc').textContent : 'Description not available.';
-
-        if(window.innerWidth <= 900 || card.classList.contains('card')) {
-            document.getElementById('panelImage').src = img;
-            document.getElementById('panelName').textContent = name;
-            document.getElementById('panelTitle').textContent = title;
-            document.getElementById('panelDescription').textContent = desc;
-            document.getElementById('sidePanel').classList.add('active');
-        }
+        document.getElementById('panelImage').src = img;
+        document.getElementById('panelName').textContent = name;
+        document.getElementById('panelTitle').textContent = title;
+        document.getElementById('panelDescription').textContent = desc;
+        document.getElementById('sidePanel').classList.add('active');
     }
 
     function closePanel() { document.getElementById('sidePanel').classList.remove('active'); }
