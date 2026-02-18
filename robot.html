@@ -199,17 +199,20 @@ track.appendChild(card);
 });
 }
 
-let position=0;
-const speed=0.5 * direction;
-
-function animate(){
-position += speed;
-
+let position = direction === 1 ? 0 : track.scrollWidth / 2;
 const width = track.scrollWidth / 2;
-position = position % width;
 
-track.style.transform = `translateX(${-position}px)`;
-requestAnimationFrame(animate);
+function animate() {
+    if (direction === 1) {
+        position += speed;
+        position = position % width;
+        track.style.transform = `translateX(${-position}px)`;
+    } else {
+        position -= speed;
+        if (position < 0) position += width;
+        track.style.transform = `translateX(${-position}px)`;
+    }
+    requestAnimationFrame(animate);
 }
 
 animate();
