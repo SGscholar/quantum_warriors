@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Our Robots</title>
-
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family:Arial, sans-serif; }
 body { background:#99ccff; color:#001f4d; overflow-x:hidden; }
@@ -138,7 +137,6 @@ h1 {
 }
 </style>
 </head>
-
 <body>
 
 <h1>Our Robots</h1>
@@ -173,31 +171,61 @@ Click a robot card to see its description.
 </div>
 
 <script>
-const robots = [
-{title:"Alpha", img:"https://via.placeholder.com/60", desc:"Alpha robot built for speed and agility."},
-{title:"Beta", img:"https://via.placeholder.com/60", desc:"Beta robot specialized in lifting mechanisms."},
-{title:"Gamma", img:"https://via.placeholder.com/60", desc:"Gamma robot optimized for precision control."},
-{title:"Omega", img:"https://via.placeholder.com/60", desc:"Omega robot final competition variant."}
+// Season data
+const seasons = [
+  {
+    name: "23-24 Season",
+    mainImage: "https://via.placeholder.com/400x300/003366",
+    robots: [
+      {title:"Alpha", img:"https://via.placeholder.com/60", desc:"Alpha robot 23-24."},
+      {title:"Beta", img:"https://via.placeholder.com/60", desc:"Beta robot 23-24."},
+      {title:"Gamma", img:"https://via.placeholder.com/60", desc:"Gamma robot 23-24."},
+      {title:"Omega", img:"https://via.placeholder.com/60", desc:"Omega robot 23-24."}
+    ]
+  },
+  {
+    name: "24-25 Season",
+    mainImage: "https://via.placeholder.com/400x300/004c99",
+    robots: [
+      {title:"Delta", img:"https://via.placeholder.com/60", desc:"Delta robot 24-25."},
+      {title:"Epsilon", img:"https://via.placeholder.com/60", desc:"Epsilon robot 24-25."},
+      {title:"Zeta", img:"https://via.placeholder.com/60", desc:"Zeta robot 24-25."},
+      {title:"Theta", img:"https://via.placeholder.com/60", desc:"Theta robot 24-25."}
+    ]
+  },
+  {
+    name: "25-26 Season",
+    mainImage: "https://via.placeholder.com/400x300/0066cc",
+    robots: [
+      {title:"Iota", img:"https://via.placeholder.com/60", desc:"Iota robot 25-26."},
+      {title:"Kappa", img:"https://via.placeholder.com/60", desc:"Kappa robot 25-26."},
+      {title:"Lambda", img:"https://via.placeholder.com/60", desc:"Lambda robot 25-26."},
+      {title:"Mu", img:"https://via.placeholder.com/60", desc:"Mu robot 25-26."}
+    ]
+  }
 ];
 
-const views = {
-front:"https://via.placeholder.com/400x300/003366",
-side:"https://via.placeholder.com/400x300/004c99",
-back:"https://via.placeholder.com/400x300/0066cc"
-};
+let currentSeasonIndex = 0;
 
+// Update main image
 function changeView(view,btn){
+    const views = {
+        front:seasons[currentSeasonIndex].mainImage,
+        side:seasons[currentSeasonIndex].mainImage.replace(/300/,"300"), // placeholder, you can swap
+        back:seasons[currentSeasonIndex].mainImage.replace(/300/,"300")  // placeholder
+    };
     document.getElementById("mainImage").src = views[view];
     document.querySelectorAll(".view-buttons button").forEach(b=>b.classList.remove("active"));
     btn.classList.add("active");
 }
 
+// Update description box
 function showDescription(text){
     document.getElementById("descriptionBox").textContent = text;
 }
 
-/* Create a seamless rotating row */
-function createRow(rowId, direction){
+// Create a seamless rotating row
+function createRow(rowId, direction, robotList){
     const row = document.getElementById(rowId);
     row.innerHTML = "";
 
@@ -205,9 +233,9 @@ function createRow(rowId, direction){
     track.className = "track";
     row.appendChild(track);
 
-    // Duplicate robots until track width exceeds 2× viewport width
-    while(track.scrollWidth < window.innerWidth * 2){
-        robots.forEach(robot=>{
+    // Duplicate robots until track width >2× viewport
+    while(track.scrollWidth < window.innerWidth*2){
+        robotList.forEach(robot=>{
             const card = document.createElement("div");
             card.className = "rotating-card";
             card.innerHTML = `<img src="${robot.img}"><div>${robot.title}</div>`;
@@ -216,12 +244,12 @@ function createRow(rowId, direction){
         });
     }
 
-    let position = direction === 1 ? 0 : track.scrollWidth / 2;
-    const trackWidth = track.scrollWidth / 2;
+    let position = direction===1?0:track.scrollWidth/2;
+    const trackWidth = track.scrollWidth/2;
     const speed = 0.5;
 
     function animate(){
-        if(direction === 1){
+        if(direction===1){
             position += speed;
             if(position >= trackWidth) position -= trackWidth;
             track.style.transform = `translateX(${-position}px)`;
@@ -235,11 +263,28 @@ function createRow(rowId, direction){
     animate();
 }
 
-// Create three rows
-createRow("row1", 1);  // left-to-right
-createRow("row2", -1); // middle row, right-to-left
-createRow("row3", 1);  // bottom row, left-to-right
-</script>
+// Populate all rows for a season
+function loadSeason(index){
+    currentSeasonIndex = index;
+    const robots = seasons[index].robots;
+    document.getElementById("mainImage").src = seasons[index].mainImage;
 
+    createRow("row1",1,robots);
+    createRow("row2",-1,robots);
+    createRow("row3",1,robots);
+}
+
+// Tab click logic
+document.querySelectorAll(".tab").forEach((tab,index)=>{
+    tab.onclick = () => {
+        document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+        tab.classList.add("active");
+        loadSeason(index);
+    };
+});
+
+// Load first season on page load
+loadSeason(0);
+</script>
 </body>
 </html>
