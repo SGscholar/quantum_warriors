@@ -4,243 +4,393 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quantum Warrior Members & Mentors</title>
+
 <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-    body { background-color: #99ccff; color: #001f4d; overflow-x: hidden; }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
 
-    /* Slideshow at top */
-    #slideshowContainer {
-        width: 100%;
-        max-height: 400px;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 30px;
+body{
+    background:#99ccff;
+    color:#001f4d;
+    overflow-x:hidden;
+}
+
+/* ================= SLIDESHOW ================= */
+
+#slideshowContainer{
+    width:100%;
+    height:70vh;
+    margin-top:40px;
+    position:relative;
+    overflow:hidden;
+}
+
+#slideshowImage{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:opacity .5s ease-in-out;
+    display:block;
+}
+
+.slide-arrow{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    background:rgba(0,0,0,.45);
+    color:white;
+    border:none;
+    font-size:34px;
+    padding:14px 20px;
+    cursor:pointer;
+    z-index:5;
+    transition:background .3s;
+}
+
+.slide-arrow:hover{
+    background:rgba(0,0,0,.75);
+}
+
+#prevSlide{ left:25px; }
+#nextSlide{ right:25px; }
+
+/* ================= CONTENT ================= */
+
+.content{
+    padding:0 5%;
+}
+
+h1{
+    text-align:center;
+    font-size:36px;
+    margin:90px 0 40px 0;
+}
+
+h2{
+    text-align:center;
+    font-size:30px;
+    margin:100px 0 40px 0;
+}
+
+/* ================= CARDS ================= */
+
+.row, .mentor-row{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    perspective:1000px;
+}
+
+.card, .mentor-card{
+    background:#3399ff;
+    margin:10px;
+    border-radius:12px;
+    text-align:center;
+    cursor:pointer;
+    color:white;
+    box-shadow:0 6px 18px rgba(0,0,0,.2);
+    transition:transform .15s ease, box-shadow .3s ease;
+    transform-style:preserve-3d;
+}
+
+.card{
+    flex:1 1 calc(23% - 20px);
+    padding:20px 20px 40px 20px;
+}
+
+.row.two-cards{
+    justify-content:center;
+}
+
+.row.two-cards .card{
+    flex:1 1 calc(23% - 20px);
+}
+
+.card img{
+    width:110px;
+    height:110px;
+    border-radius:50%;
+    margin-bottom:12px;
+    object-fit:cover;
+}
+
+.card h3{
+    margin-bottom:5px;
+    font-size:18px;
+}
+
+.card p{
+    font-size:14px;
+    color:#e6f0ff;
+}
+
+.mentor-card{
+    flex:1 1 calc(48% - 20px);
+    padding:25px;
+}
+
+.mentor-card img{
+    width:160px;
+    height:160px;
+    border-radius:50%;
+    margin-bottom:15px;
+    object-fit:cover;
+}
+
+.mentor-card h3{
+    font-size:22px;
+}
+
+.mentor-card h4{
+    font-size:16px;
+    font-weight:normal;
+    margin:10px 0 15px 0;
+    color:#e6f0ff;
+}
+
+.mentor-card p{
+    font-size:14px;
+    line-height:1.6;
+}
+
+/* ================= SIDE PANEL ================= */
+
+#sidePanel{
+    position:fixed;
+    top:0;
+    right:-400px;
+    width:400px;
+    height:100%;
+    background:#99ccff;
+    box-shadow:-2px 0 12px rgba(0,0,0,.2);
+    transition:right .3s ease;
+    overflow-y:auto;
+    z-index:10;
+}
+
+#sidePanel.active{
+    right:0;
+}
+
+#sidePanel img{
+    width:160px;
+    height:160px;
+    border-radius:50%;
+    display:block;
+    margin:30px auto 20px auto;
+}
+
+#sidePanel h2, 
+#sidePanel h4{
+    text-align:center;
+}
+
+#sidePanel p{
+    padding:0 20px 40px 20px;
+    line-height:1.6;
+}
+
+#closePanel{
+    position:absolute;
+    top:15px;
+    right:15px;
+    background:#3399ff;
+    border:1px solid #001f4d;
+    color:white;
+    padding:6px 12px;
+    cursor:pointer;
+    border-radius:6px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+    .row, .mentor-row{
+        flex-direction:column;
+        align-items:center;
     }
-    #slideshowContainer img {
-        width: 100%;
-        max-height: 400px;
-        object-fit: cover;
-        transition: opacity 1s ease-in-out;
+
+    .card, .mentor-card{
+        flex:1 1 100%;
     }
 
-    .content { position: relative; padding: 0 5%; }
-
-    h1, h2 { text-align: center; margin-bottom: 40px; }
-    h1 { font-size: 36px; color: #001f4d; margin-top:10vh; }
-    h2 { font-size: 30px; color: #001f4d; margin-top: 80px; margin-bottom: 40px; }
-
-    /* Row perspective for 3D tilt */
-    .row, .mentor-row { display: flex; justify-content: space-between; flex-wrap: wrap; perspective: 1000px; }
-
-    /* Card styling with shadow & transition */
-    .card, .mentor-card {
-        background-color: #3399ff;
-        flex: 1 1 calc(23% - 20px);
-        margin: 10px;
-        padding: 20px 20px 40px 20px;
-        border-radius: 10px;
-        text-align: center;
-        cursor: pointer;
-        color: #ffffff;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        transition: transform 0.1s ease, box-shadow 0.3s ease;
-        transform-style: preserve-3d;
+    .mentor-card p{
+        display:none;
     }
-
-    /* Press effect */
-    .card:active, .mentor-card:active {
-        transform: scale(0.97) !important;
-        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-    }
-
-    .card img { width: 100px; height: 100px; border-radius: 50%; margin-bottom: 10px; object-fit: cover; }
-    .card h3 { margin-bottom: 5px; font-size: 18px; }
-    .card p { font-size: 14px; color: #e6f0ff; }
-
-    .row.two-cards { justify-content: center; }
-    .row.two-cards .card { flex: 1 1 calc(23% - 20px); }
-
-    .mentor-card { flex: 1 1 calc(48% - 20px); }
-    .mentor-card img { width: 150px; height: 150px; border-radius: 50%; margin-bottom: 15px; }
-    .mentor-card h3 { font-size: 22px; margin-bottom: 5px; }
-    .mentor-card h4 { font-size: 16px; margin-bottom: 15px; font-weight: normal; color: #e6f0ff; }
-    .mentor-card p { font-size: 14px; line-height: 1.6; text-align: center; }
-
-    /* Side panel */
-    #sidePanel {
-        position: fixed;
-        top: 0;
-        right: -400px;
-        width: 400px;
-        height: 100%;
-        background-color: #99ccff;
-        box-shadow: -2px 0 10px rgba(0,0,0,0.2);
-        padding: 0;
-        transition: right 0.3s;
-        overflow-y: auto;
-        z-index: 10;
-        color: #001f4d;
-    }
-    #sidePanel.active { right: 0; }
-    #sidePanel img { width: 150px; height: 150px; border-radius: 50%; display: block; margin: 20px auto; }
-    #sidePanel h2 { text-align: center; margin-bottom: 10px; }
-    #sidePanel h4 { text-align: center; margin-bottom: 20px; font-weight: normal; color: #001f4d; }
-    #sidePanel p { font-size: 14px; line-height: 1.6; padding: 0 10px; }
-    #closePanel {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        background-color: #3399ff;
-        border: 1px solid #001f4d;
-        color: #ffffff;
-        padding: 5px 10px;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-
-    @media (max-width: 900px) {
-        .row, .mentor-row { flex-direction: column; align-items: center; padding: 0; }
-        .card, .row.two-cards .card, .mentor-card { flex: 1 1 100%; margin: 0; }
-        .mentor-card p { display: none; }
-    }
+}
 </style>
 </head>
+
 <body>
 
+<!-- ================= SLIDESHOW ================= -->
+
+<div id="slideshowContainer">
+    <button id="prevSlide" class="slide-arrow">&#10094;</button>
+    <img id="slideshowImage" src="images/indeximg1.jpeg" alt="Slideshow">
+    <button id="nextSlide" class="slide-arrow">&#10095;</button>
+</div>
+
 <div class="content">
-    <!-- Slideshow at top -->
-    <div id="slideshowContainer">
-        <img id="slideshowImage" src="images/indeximg1.jpg" alt="Slideshow">
+
+<h1>Members</h1>
+
+<div class="row">
+    <div class="card" onclick="openPanel(this)">
+        <img src="images/randomdude.jpg">
+        <h3>Vibhava Bhat</h3>
+        <p>Design and Code Team</p>
+        <p class="long-desc" style="display:none;">Vibhava is a front-end developer and designer who focuses on integrating creative design with clean code.</p>
     </div>
 
-    <h1>Members</h1>
-
-    <!-- Member rows -->
-    <div class="row">
-        <div class="card" onclick="openPanel(this)">
-            <img src="images/randomdude.jpg" alt="Person 1">
-            <h3>Vibhava Bhat</h3>
-            <p>Design and Code Team</p>
-            <p class="long-desc" style="display:none;">Vibhava is a front-end developer and designer who focuses on integrating creative design with clean code.</p>
-        </div>
-        <div class="card" onclick="openPanel(this)">
-            <img src="https://via.placeholder.com/100" alt="Person 2">
-            <h3>Person 2</h3>
-            <p>Title 2</p>
-            <p class="long-desc" style="display:none;">Person 2 contributes to the project with strategic planning and technical insights.</p>
-        </div>
-        <div class="card" onclick="openPanel(this)">
-            <img src="https://via.placeholder.com/100" alt="Person 3">
-            <h3>Person 3</h3>
-            <p>Title 3</p>
-            <p class="long-desc" style="display:none;">Person 3 specializes in data analysis and system optimization to improve workflow efficiency.</p>
-        </div>
-        <div class="card" onclick="openPanel(this)">
-            <img src="https://via.placeholder.com/100" alt="Person 4">
-            <h3>Person 4</h3>
-            <p>Title 4</p>
-            <p class="long-desc" style="display:none;">Person 4 is responsible for content creation and ensuring communication clarity across teams.</p>
-        </div>
+    <div class="card" onclick="openPanel(this)">
+        <img src="https://via.placeholder.com/100">
+        <h3>Person 2</h3>
+        <p>Title 2</p>
+        <p class="long-desc" style="display:none;">Person 2 contributes to the project with strategic planning and technical insights.</p>
     </div>
 
-    <div class="row two-cards">
-        <div class="card" onclick="openPanel(this)">
-            <img src="https://via.placeholder.com/100" alt="Person 9">
-            <h3>Person 9</h3>
-            <p>Title 9</p>
-            <p class="long-desc" style="display:none;">Person 9 coordinates user experience research to enhance interface design.</p>
-        </div>
-        <div class="card" onclick="openPanel(this)">
-            <img src="https://via.placeholder.com/100" alt="Person 10">
-            <h3>Person 10</h3>
-            <p>Title 10</p>
-            <p class="long-desc" style="display:none;">Person 10 oversees deployment processes and ensures system stability.</p>
-        </div>
+    <div class="card" onclick="openPanel(this)">
+        <img src="https://via.placeholder.com/100">
+        <h3>Person 3</h3>
+        <p>Title 3</p>
+        <p class="long-desc" style="display:none;">Person 3 specializes in data analysis and system optimization.</p>
     </div>
 
-    <h2>Mentors</h2>
-    <div class="mentor-row">
-        <div class="mentor-card" onclick="openPanel(this)">
-            <img src="https://via.placeholder.com/150" alt="Mentor 1">
-            <h3>Mentor 1</h3>
-            <h4>Lead Advisor</h4>
-            <p>Lorem ipsum short text</p>
-            <p class="long-desc" style="display:none;">Mentor 1 guides the team in strategic decisions, overseeing all aspects of planning and execution.</p>
-        </div>
-        <div class="mentor-card" onclick="openPanel(this)">
-            <img src="https://via.placeholder.com/150" alt="Mentor 2">
-            <h3>Mentor 2</h3>
-            <h4>Senior Consultant</h4>
-            <p>Lorem ipsum short text</p>
-            <p class="long-desc" style="display:none;">Mentor 2 provides expert advice on technical approaches and ensures project alignment with goals.</p>
-        </div>
+    <div class="card" onclick="openPanel(this)">
+        <img src="https://via.placeholder.com/100">
+        <h3>Person 4</h3>
+        <p>Title 4</p>
+        <p class="long-desc" style="display:none;">Person 4 is responsible for content creation and communication clarity.</p>
     </div>
 </div>
 
+<div class="row two-cards">
+    <div class="card" onclick="openPanel(this)">
+        <img src="https://via.placeholder.com/100">
+        <h3>Person 9</h3>
+        <p>Title 9</p>
+        <p class="long-desc" style="display:none;">Person 9 coordinates user experience research.</p>
+    </div>
+
+    <div class="card" onclick="openPanel(this)">
+        <img src="https://via.placeholder.com/100">
+        <h3>Person 10</h3>
+        <p>Title 10</p>
+        <p class="long-desc" style="display:none;">Person 10 oversees deployment processes and system stability.</p>
+    </div>
+</div>
+
+<h2>Mentors</h2>
+
+<div class="mentor-row">
+    <div class="mentor-card" onclick="openPanel(this)">
+        <img src="https://via.placeholder.com/150">
+        <h3>Mentor 1</h3>
+        <h4>Lead Advisor</h4>
+        <p>Short description</p>
+        <p class="long-desc" style="display:none;">Mentor 1 guides the team in strategic decisions and execution.</p>
+    </div>
+
+    <div class="mentor-card" onclick="openPanel(this)">
+        <img src="https://via.placeholder.com/150">
+        <h3>Mentor 2</h3>
+        <h4>Senior Consultant</h4>
+        <p>Short description</p>
+        <p class="long-desc" style="display:none;">Mentor 2 provides expert technical advice and oversight.</p>
+    </div>
+</div>
+
+</div>
+
+<!-- ================= SIDE PANEL ================= -->
+
 <div id="sidePanel">
     <button id="closePanel" onclick="closePanel()">Close</button>
-    <img id="panelImage" src="" alt="">
+    <img id="panelImage">
     <h2 id="panelName"></h2>
     <h4 id="panelTitle"></h4>
     <p id="panelDescription"></p>
 </div>
 
 <script>
-    // Slideshow
-    const slideshowImages = ['images/indeximg1.jpeg','images/indeximg2.jpg','images/indeximg3.jpeg'];
-    let current = 0;
-    const slideshow = document.getElementById('slideshowImage');
-    setInterval(() => {
-        current = (current + 1) % slideshowImages.length;
-        slideshow.style.opacity = 0;
-        setTimeout(() => {
-            slideshow.src = slideshowImages[current];
-            slideshow.style.opacity = 1;
-        }, 500);
-    }, 5000);
+/* SLIDESHOW */
 
-    // Side panel
-    function openPanel(card) {
-        const img = card.querySelector('img') ? card.querySelector('img').src : '';
-        const name = card.querySelector('h3') ? card.querySelector('h3').textContent : '';
-        const title = card.querySelector('h4, p') ? (card.querySelector('h4') ? card.querySelector('h4').textContent : card.querySelector('p').textContent) : '';
-        const desc = card.querySelector('.long-desc') ? card.querySelector('.long-desc').textContent : 'Description not available.';
-        document.getElementById('panelImage').src = img;
-        document.getElementById('panelName').textContent = name;
-        document.getElementById('panelTitle').textContent = title;
-        document.getElementById('panelDescription').textContent = desc;
-        document.getElementById('sidePanel').classList.add('active');
+const slideshowImages=[
+    "images/indeximg1.jpeg",
+    "images/indeximg2.jpg",
+    "images/indeximg3.jpeg"
+];
+
+let current=0;
+let interval=null;
+const slideshow=document.getElementById("slideshowImage");
+
+function showSlide(index){
+    slideshow.style.opacity=0;
+    setTimeout(()=>{
+        slideshow.src=slideshowImages[index];
+        slideshow.style.opacity=1;
+    },300);
+}
+
+function nextSlide(){
+    current=(current+1)%slideshowImages.length;
+    showSlide(current);
+}
+
+function prevSlide(){
+    current=(current-1+slideshowImages.length)%slideshowImages.length;
+    showSlide(current);
+}
+
+function startSlideshow(){
+    interval=setInterval(nextSlide,5000);
+}
+
+function stopSlideshow(){
+    if(interval){
+        clearInterval(interval);
+        interval=null;
     }
+}
 
-    function closePanel() { document.getElementById('sidePanel').classList.remove('active'); }
+document.getElementById("nextSlide").addEventListener("click",()=>{
+    stopSlideshow();
+    nextSlide();
+});
 
-    // Mouse-responsive 3D tilt
-    const cards = document.querySelectorAll('.card, .mentor-card');
-    cards.forEach(card => {
-        card.addEventListener('mousemove', e => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left; 
-            const y = e.clientY - rect.top;  
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = ((y - centerY) / centerY) * -10; // tilt limit
-            const rotateY = ((x - centerX) / centerX) * 10;
-            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
-            card.style.boxShadow = '0 20px 30px rgba(0,0,0,0.3)';
-        });
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
-            card.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
-        });
-        card.addEventListener('mousedown', () => {
-            card.style.transform += ' scale(0.97)';
-        });
-        card.addEventListener('mouseup', () => {
-            card.style.transform = card.style.transform.replace(' scale(0.97)','');
-        });
-    });
+document.getElementById("prevSlide").addEventListener("click",()=>{
+    stopSlideshow();
+    prevSlide();
+});
+
+startSlideshow();
+
+/* SIDE PANEL */
+
+function openPanel(card){
+    const img=card.querySelector("img")?.src||"";
+    const name=card.querySelector("h3")?.textContent||"";
+    const title=card.querySelector("h4")?.textContent||
+                card.querySelector("p")?.textContent||"";
+    const desc=card.querySelector(".long-desc")?.textContent||"";
+
+    document.getElementById("panelImage").src=img;
+    document.getElementById("panelName").textContent=name;
+    document.getElementById("panelTitle").textContent=title;
+    document.getElementById("panelDescription").textContent=desc;
+
+    document.getElementById("sidePanel").classList.add("active");
+}
+
+function closePanel(){
+    document.getElementById("sidePanel").classList.remove("active");
+}
 </script>
 
 </body>
