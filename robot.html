@@ -213,12 +213,7 @@ let currentSeasonIndex = 0;
 
 // Update main image
 function changeView(view,btn){
-    const views = {
-        front:seasons[currentSeasonIndex].mainImage,
-        side:seasons[currentSeasonIndex].mainImage.replace("images/side_2324.jpg"), // placeholder, you can swap
-        back:seasons[currentSeasonIndex].mainImage.replace(/300/,"300")  // placeholder
-    };
-    document.getElementById("mainImage").src = views[view];
+    document.getElementById("mainImage").src = mainImage[view];
     document.querySelectorAll(".view-buttons button").forEach(b=>b.classList.remove("active"));
     btn.classList.add("active");
 }
