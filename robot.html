@@ -211,7 +211,7 @@ let currentSeasonIndex = 0;
 function changeView(view,btn){
     const views = {
         front:seasons[currentSeasonIndex].mainImage,
-        side:seasons[currentSeasonIndex].mainImage.replace(images/side_2324.jpg), // placeholder, you can swap
+        side:seasons[currentSeasonIndex].mainImage.replace("images/side_2324.jpg"), // placeholder, you can swap
         back:seasons[currentSeasonIndex].mainImage.replace(/300/,"300")  // placeholder
     };
     document.getElementById("mainImage").src = views[view];
