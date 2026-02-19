@@ -212,7 +212,7 @@ const seasons = [
       {title:"Zeta", img:"https://via.placeholder.com/60", desc:"Zeta robot 24-25."},
       {title:"Theta", img:"https://via.placeholder.com/60", desc:"Theta robot 24-25."}
     ],
-    robots_midlerow: [
+    robots_middlerow: [
       {title:"Delta", img:"https://via.placeholder.com/60", desc:"Delta robot 24-25."},
       {title:"Epsilon", img:"https://via.placeholder.com/60", desc:"Epsilon robot 24-25."},
       {title:"Zeta", img:"https://via.placeholder.com/60", desc:"Zeta robot 24-25."},
@@ -315,7 +315,7 @@ function loadSeason(index){
     const botrobots = seasons[index].robots_bottomrow;
     document.getElementById("mainImage").src = seasons[index].mainImage.front;
 
-    createRow("row1",1,toprobots);
+    createRow("row1",1,uprobots);
     createRow("row2",-1,midrobots);
     if(index != 0){
         createRow("row3",1,botrobots);
