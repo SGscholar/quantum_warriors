@@ -274,7 +274,7 @@ function createRow(rowId, direction, robotList){
 function loadSeason(index){
     currentSeasonIndex = index;
     const robots = seasons[index].robots;
-    document.getElementById("mainImage").src = seasons[index].mainImage;
+    document.getElementById("mainImage").src = seasons[index].mainImage.front;
 
     createRow("row1",1,seasons[currentSeasonIndex].robots);
     createRow("row2",-1,seasons[currentSeasonIndex].robots);
