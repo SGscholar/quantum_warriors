@@ -279,7 +279,10 @@ function loadSeason(index){
 
     createRow("row1",1,robots);
     createRow("row2",-1,robots);
-    createRow("row3",1,robots);
+    if(index != 0){
+        createRow("row3",1,robots);
+    }
+    
 }
 
 // Tab click logic
