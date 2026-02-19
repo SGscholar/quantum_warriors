@@ -91,8 +91,8 @@ h1 {
 }
 
 .rotating-wrapper {
-    width:80%; /* match main-section width */
-    margin:40px auto 0 auto; /* center it with same margin */
+    width:80%;
+    margin:40px auto 0 auto;
 }
 
 .rotating-row {
@@ -105,6 +105,8 @@ h1 {
 .track {
     display:flex;
     gap:30px;
+    position: absolute;
+    white-space: nowrap;
 }
 
 .rotating-card {
@@ -142,20 +144,20 @@ h1 {
 <h1>Our Robots</h1>
 
 <div class="tabs">
-    <div class="tab active">23-24 Season</div>
-    <div class="tab">24-25 Season</div>
-    <div class="tab">25-26 Season</div>
+    <div class="tab active" onclick="selectTab(0, this)">23-24 Season</div>
+    <div class="tab" onclick="selectTab(1, this)">24-25 Season</div>
+    <div class="tab" onclick="selectTab(2, this)">25-26 Season</div>
 </div>
 
 <div class="main-section">
     <div class="model-area">3D Model Area</div>
 
     <div class="image-area">
-        <img id="mainImage" src="images/23_24_front.jpg">
+        <img id="mainImage" src="https://via.placeholder.com/400x300?text=Front+View">
         <div class="view-buttons">
-            <button class="active" onclick="changeView('front',this)">Front View</button>
-            <button onclick="changeView('side',this)">Side View</button>
-            <button onclick="changeView('back',this)">Back View</button>
+            <button id="btn-front" class="active" onclick="changeView('front',this)">Front View</button>
+            <button id="btn-side" onclick="changeView('side',this)">Side View</button>
+            <button id="btn-back" onclick="changeView('back',this)">Back View</button>
         </div>
     </div>
 </div>
@@ -171,14 +173,13 @@ Click a robot card to see its description.
 </div>
 
 <script>
-// Season data
 const seasons = [
   {
     name: "23-24 Season",
     mainImage: {
-        front: "images/23_24_front.jpg",
-        side: "images/side_2324.jpg",
-        back: "images/23_24_front.jpg"
+        front: "https://via.placeholder.com/400x300?text=23-24+Front",
+        side: "https://via.placeholder.com/400x300?text=23-24+Side",
+        back: "https://via.placeholder.com/400x300?text=23-24+Back"
     },
     robots_toprow: [
       {title:"Alpha", img:"https://via.placeholder.com/60", desc:"Alpha robot 23-24."},
@@ -187,155 +188,126 @@ const seasons = [
       {title:"Omega", img:"https://via.placeholder.com/60", desc:"Omega robot 23-24."}
     ],
     robots_middlerow: [
-      {title:"Alpha", img:"https://via.placeholder.com/60", desc:"Alpha robot 23-24."},
-      {title:"Beta", img:"https://via.placeholder.com/60", desc:"Beta robot 23-24."},
-      {title:"Gamma", img:"https://via.placeholder.com/60", desc:"Gamma robot 23-24."},
-      {title:"Omega", img:"https://via.placeholder.com/60", desc:"Omega robot 23-24."}
+      {title:"A-Mid", img:"https://via.placeholder.com/60", desc:"Mid Alpha 23-24."},
+      {title:"B-Mid", img:"https://via.placeholder.com/60", desc:"Mid Beta 23-24."}
     ],
-    robots_bottomrow: [
-      {title:"Alpha", img:"https://via.placeholder.com/60", desc:"Alpha robot 23-24."},
-      {title:"Beta", img:"https://via.placeholder.com/60", desc:"Beta robot 23-24."},
-      {title:"Gamma", img:"https://via.placeholder.com/60", desc:"Gamma robot 23-24."},
-      {title:"Omega", img:"https://via.placeholder.com/60", desc:"Omega robot 23-24."}
-    ]
+    robots_bottomrow: [] // Demonstrating empty row handling
   },
   {
     name: "24-25 Season",
     mainImage: {
-        front: "images/23_24_front.jpg",
-        side: "images/side_2324.jpg",
-        back: "images/23_24_front.jpg"
+        front: "https://via.placeholder.com/400x300?text=24-25+Front",
+        side: "https://via.placeholder.com/400x300?text=24-25+Side",
+        back: "https://via.placeholder.com/400x300?text=24-25+Back"
     },
     robots_toprow: [
       {title:"Delta", img:"https://via.placeholder.com/60", desc:"Delta robot 24-25."},
-      {title:"Epsilon", img:"https://via.placeholder.com/60", desc:"Epsilon robot 24-25."},
-      {title:"Zeta", img:"https://via.placeholder.com/60", desc:"Zeta robot 24-25."},
-      {title:"Theta", img:"https://via.placeholder.com/60", desc:"Theta robot 24-25."}
+      {title:"Epsilon", img:"https://via.placeholder.com/60", desc:"Epsilon robot 24-25."}
     ],
     robots_middlerow: [
-      {title:"Delta", img:"https://via.placeholder.com/60", desc:"Delta robot 24-25."},
-      {title:"Epsilon", img:"https://via.placeholder.com/60", desc:"Epsilon robot 24-25."},
       {title:"Zeta", img:"https://via.placeholder.com/60", desc:"Zeta robot 24-25."},
       {title:"Theta", img:"https://via.placeholder.com/60", desc:"Theta robot 24-25."}
     ],
     robots_bottomrow: [
-      {title:"Delta", img:"https://via.placeholder.com/60", desc:"Delta robot 24-25."},
-      {title:"Epsilon", img:"https://via.placeholder.com/60", desc:"Epsilon robot 24-25."},
-      {title:"Zeta", img:"https://via.placeholder.com/60", desc:"Zeta robot 24-25."},
-      {title:"Theta", img:"https://via.placeholder.com/60", desc:"Theta robot 24-25."}
+      {title:"Sigma", img:"https://via.placeholder.com/60", desc:"Sigma robot 24-25."}
     ]
   },
   {
     name: "25-26 Season",
     mainImage: {
-        front: "images/23_24_front.jpg",
-        side: "images/side_2324.jpg",
-        back: "images/23_24_front.jpg"
+        front: "https://via.placeholder.com/400x300?text=25-26+Front",
+        side: "https://via.placeholder.com/400x300?text=25-26+Side",
+        back: "https://via.placeholder.com/400x300?text=25-26+Back"
     },
-    robots_toprow: [
-      {title:"Iota", img:"https://via.placeholder.com/60", desc:"Iota robot 25-26."},
-      {title:"Kappa", img:"https://via.placeholder.com/60", desc:"Kappa robot 25-26."},
-      {title:"Lambda", img:"https://via.placeholder.com/60", desc:"Lambda robot 25-26."},
-      {title:"Mu", img:"https://via.placeholder.com/60", desc:"Mu robot 25-26."}
-    ],
-      robots_middlerow: [
-      {title:"Iota", img:"https://via.placeholder.com/60", desc:"Iota robot 25-26."},
-      {title:"Kappa", img:"https://via.placeholder.com/60", desc:"Kappa robot 25-26."},
-      {title:"Lambda", img:"https://via.placeholder.com/60", desc:"Lambda robot 25-26."},
-      {title:"Mu", img:"https://via.placeholder.com/60", desc:"Mu robot 25-26."}
-    ],
-      robots_bottomrow: [
-      {title:"Iota", img:"https://via.placeholder.com/60", desc:"Iota robot 25-26."},
-      {title:"Kappa", img:"https://via.placeholder.com/60", desc:"Kappa robot 25-26."},
-      {title:"Lambda", img:"https://via.placeholder.com/60", desc:"Lambda robot 25-26."},
-      {title:"Mu", img:"https://via.placeholder.com/60", desc:"Mu robot 25-26."}
-    ]
+    robots_toprow: [{title:"Iota", img:"https://via.placeholder.com/60", desc:"Iota robot 25-26."}],
+    robots_middlerow: [{title:"Kappa", img:"https://via.placeholder.com/60", desc:"Kappa robot 25-26."}],
+    robots_bottomrow: [{title:"Lambda", img:"https://via.placeholder.com/60", desc:"Lambda robot 25-26."}]
   }
 ];
 
 let currentSeasonIndex = 0;
+let animationIds = {}; // Track animations to stop them when switching tabs
 
-// Update main image
-function changeView(view,btn){
+function changeView(view, btn){
     document.getElementById("mainImage").src = seasons[currentSeasonIndex].mainImage[view];
     document.querySelectorAll(".view-buttons button").forEach(b=>b.classList.remove("active"));
     btn.classList.add("active");
 }
 
-// Update description box
 function showDescription(text){
     document.getElementById("descriptionBox").textContent = text;
 }
 
-// Create a seamless rotating row bounded by wrapper
 function createRow(rowId, direction, robotList){
     const row = document.getElementById(rowId);
+    
+    // 1. Cancel existing animation for this row
+    if(animationIds[rowId]) cancelAnimationFrame(animationIds[rowId]);
     row.innerHTML = "";
+
+    // 2. Safety check: Don't run logic if list is empty
+    if(!robotList || robotList.length === 0) return;
 
     const track = document.createElement("div");
     track.className = "track";
     row.appendChild(track);
 
-    // Duplicate robots until track width > wrapper width
-    const wrapperWidth = row.parentElement.offsetWidth; // bound to wrapper
-    while(track.scrollWidth < wrapperWidth*2){
-        robotList.forEach(robot=>{
-            const card = document.createElement("div");
-            card.className = "rotating-card";
-            card.innerHTML = `<img src="${robot.img}"><div>${robot.title}</div>`;
-            card.onclick = () => showDescription(robot.desc);
-            track.appendChild(card);
-        });
+    // 3. Populate cards
+    robotList.forEach(robot => {
+        const card = document.createElement("div");
+        card.className = "rotating-card";
+        card.innerHTML = `<img src="${robot.img}"><div>${robot.title}</div>`;
+        card.onclick = () => showDescription(robot.desc);
+        track.appendChild(card);
+    });
+
+    // 4. Duplicate for seamless scrolling
+    const wrapperWidth = row.offsetWidth;
+    while(track.scrollWidth < wrapperWidth * 2 + 500){
+        const children = Array.from(track.children);
+        children.forEach(child => track.appendChild(child.cloneNode(true)));
     }
 
-    let position = direction===1 ? 0 : track.scrollWidth/2;
-    const trackWidth = track.scrollWidth/2;
-    const speed = 0.5;
+    let position = 0;
+    const trackWidth = track.scrollWidth / 2;
+    const speed = 0.8;
 
     function animate(){
-        if(direction===1){
-            position += speed;
-            if(position >= trackWidth) position -= trackWidth;
-            track.style.transform = `translateX(${-position}px)`;
-        } else {
-            position -= speed;
-            if(position <= 0) position += trackWidth;
-            track.style.transform = `translateX(${-position}px)`;
-        }
-        requestAnimationFrame(animate);
+        position += (speed * direction);
+        
+        // Reset position for infinite loop
+        if(direction === 1 && position >= trackWidth) position = 0;
+        if(direction === -1 && position <= 0) position = trackWidth;
+
+        track.style.transform = `translateX(${-position}px)`;
+        animationIds[rowId] = requestAnimationFrame(animate);
     }
     animate();
 }
 
-// Populate all rows for a season
 function loadSeason(index){
     currentSeasonIndex = index;
-    const uprobots = seasons[index].robots_toprow;
-    const midrobots = seasons[index].robots_middlerow;
-    const botrobots = seasons[index].robots_bottomrow;
-    document.getElementById("mainImage").src = seasons[index].mainImage.front;
-
-    createRow("row1",1,uprobots);
-    createRow("row2",-1,midrobots);
-    if(index != 0){
-        createRow("row3",1,botrobots);
-    }else{
-        createRow("row3",1,[]);
-    }
+    const s = seasons[index];
     
+    // Reset Image and Buttons
+    document.getElementById("mainImage").src = s.mainImage.front;
+    document.querySelectorAll(".view-buttons button").forEach(b=>b.classList.remove("active"));
+    document.getElementById("btn-front").classList.add("active");
+
+    // Load Rows
+    createRow("row1", 1, s.robots_toprow);
+    createRow("row2", -1, s.robots_middlerow);
+    createRow("row3", 1, s.robots_bottomrow);
 }
 
-// Tab click logic
-document.querySelectorAll(".tab").forEach((tab,index)=>{
-    tab.onclick = () => {
-        document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-        tab.classList.add("active");
-        loadSeason(index);
-    };
-});
+function selectTab(index, tabEl){
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    tabEl.classList.add("active");
+    loadSeason(index);
+}
 
-// Load first season on page load
-loadSeason(0);
+// Initial Load
+window.onload = () => loadSeason(0);
 </script>
 </body>
 </html>
