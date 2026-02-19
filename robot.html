@@ -206,7 +206,19 @@ const seasons = [
         side: "images/side_2324.jpg",
         back: "images/23_24_front.jpg"
     },
-    robots: [
+    robots_toprow: [
+      {title:"Delta", img:"https://via.placeholder.com/60", desc:"Delta robot 24-25."},
+      {title:"Epsilon", img:"https://via.placeholder.com/60", desc:"Epsilon robot 24-25."},
+      {title:"Zeta", img:"https://via.placeholder.com/60", desc:"Zeta robot 24-25."},
+      {title:"Theta", img:"https://via.placeholder.com/60", desc:"Theta robot 24-25."}
+    ],
+    robots_midlerow: [
+      {title:"Delta", img:"https://via.placeholder.com/60", desc:"Delta robot 24-25."},
+      {title:"Epsilon", img:"https://via.placeholder.com/60", desc:"Epsilon robot 24-25."},
+      {title:"Zeta", img:"https://via.placeholder.com/60", desc:"Zeta robot 24-25."},
+      {title:"Theta", img:"https://via.placeholder.com/60", desc:"Theta robot 24-25."}
+    ],
+    robots_bottomrow: [
       {title:"Delta", img:"https://via.placeholder.com/60", desc:"Delta robot 24-25."},
       {title:"Epsilon", img:"https://via.placeholder.com/60", desc:"Epsilon robot 24-25."},
       {title:"Zeta", img:"https://via.placeholder.com/60", desc:"Zeta robot 24-25."},
@@ -220,7 +232,19 @@ const seasons = [
         side: "images/side_2324.jpg",
         back: "images/23_24_front.jpg"
     },
-    robots: [
+    robots_toprow: [
+      {title:"Iota", img:"https://via.placeholder.com/60", desc:"Iota robot 25-26."},
+      {title:"Kappa", img:"https://via.placeholder.com/60", desc:"Kappa robot 25-26."},
+      {title:"Lambda", img:"https://via.placeholder.com/60", desc:"Lambda robot 25-26."},
+      {title:"Mu", img:"https://via.placeholder.com/60", desc:"Mu robot 25-26."}
+    ],
+      robots_middlerow: [
+      {title:"Iota", img:"https://via.placeholder.com/60", desc:"Iota robot 25-26."},
+      {title:"Kappa", img:"https://via.placeholder.com/60", desc:"Kappa robot 25-26."},
+      {title:"Lambda", img:"https://via.placeholder.com/60", desc:"Lambda robot 25-26."},
+      {title:"Mu", img:"https://via.placeholder.com/60", desc:"Mu robot 25-26."}
+    ],
+      robots_bottomrow: [
       {title:"Iota", img:"https://via.placeholder.com/60", desc:"Iota robot 25-26."},
       {title:"Kappa", img:"https://via.placeholder.com/60", desc:"Kappa robot 25-26."},
       {title:"Lambda", img:"https://via.placeholder.com/60", desc:"Lambda robot 25-26."},
@@ -288,7 +312,7 @@ function loadSeason(index){
     currentSeasonIndex = index;
     const uprobots = seasons[index].robots_toprow;
     const midrobots = seasons[index].robots_middlerow;
-    const botrobots = seasons[index].robots_lastrow;
+    const botrobots = seasons[index].robots_bottomrow;
     document.getElementById("mainImage").src = seasons[index].mainImage.front;
 
     createRow("row1",1,toprobots);
