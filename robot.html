@@ -8,18 +8,9 @@
 * { margin:0; padding:0; box-sizing:border-box; font-family:Arial, sans-serif; }
 body { background:#99ccff; color:#001f4d; overflow-x:hidden; }
 
-h1 {
-    margin-top:60px;
-    margin-left:10%;
-    font-size:36px;
-}
+h1 { margin-top:60px; margin-left:10%; font-size:36px; }
 
-.tabs {
-    margin-left:10%;
-    margin-top:30px;
-    display:flex;
-    gap:40px;
-}
+.tabs { margin-left:10%; margin-top:30px; display:flex; gap:40px; }
 
 .tab {
     font-size:18px;
@@ -30,9 +21,7 @@ h1 {
     transition:all 0.3s ease;
 }
 
-.tab.active {
-    border:2px solid #001f4d;
-}
+.tab.active { border:2px solid #001f4d; }
 
 .main-section {
     width:80%;
@@ -90,10 +79,7 @@ h1 {
     color:#ffffff;
 }
 
-.rotating-wrapper {
-    width:80%;
-    margin:40px auto 0 auto;
-}
+.rotating-wrapper { width:80%; margin:40px auto 0 auto; }
 
 .rotating-row {
     position:relative;
@@ -105,8 +91,8 @@ h1 {
 .track {
     display:flex;
     gap:30px;
-    position: absolute;
-    white-space: nowrap;
+    position:absolute;
+    white-space:nowrap;
 }
 
 .rotating-card {
@@ -191,7 +177,7 @@ const seasons = [
       {title:"A-Mid", img:"https://via.placeholder.com/60", desc:"Mid Alpha 23-24."},
       {title:"B-Mid", img:"https://via.placeholder.com/60", desc:"Mid Beta 23-24."}
     ],
-    robots_bottomrow: [] // Demonstrating empty row handling
+    robots_bottomrow: []
   },
   {
     name: "24-25 Season",
@@ -226,7 +212,7 @@ const seasons = [
 ];
 
 let currentSeasonIndex = 0;
-let animationIds = {}; // Track animations to stop them when switching tabs
+let animationIds = {};
 
 function changeView(view, btn){
     document.getElementById("mainImage").src = seasons[currentSeasonIndex].mainImage[view];
@@ -240,32 +226,36 @@ function showDescription(text){
 
 function createRow(rowId, direction, robotList){
     const row = document.getElementById(rowId);
-    
-    // 1. Cancel existing animation for this row
     if(animationIds[rowId]) cancelAnimationFrame(animationIds[rowId]);
     row.innerHTML = "";
-
-    // 2. Safety check: Don't run logic if list is empty
     if(!robotList || robotList.length === 0) return;
 
     const track = document.createElement("div");
     track.className = "track";
     row.appendChild(track);
 
-    // 3. Populate cards
-    robotList.forEach(robot => {
+    function createCard(robot){
         const card = document.createElement("div");
         card.className = "rotating-card";
+        card.dataset.desc = robot.desc;
         card.innerHTML = `<img src="${robot.img}"><div>${robot.title}</div>`;
         card.onclick = () => showDescription(robot.desc);
-        track.appendChild(card);
+        return card;
+    }
+
+    robotList.forEach(robot => {
+        track.appendChild(createCard(robot));
     });
 
-    // 4. Duplicate for seamless scrolling
     const wrapperWidth = row.offsetWidth;
+
     while(track.scrollWidth < wrapperWidth * 2 + 500){
         const children = Array.from(track.children);
-        children.forEach(child => track.appendChild(child.cloneNode(true)));
+        children.forEach(child => {
+            const clone = child.cloneNode(true);
+            clone.onclick = () => showDescription(clone.dataset.desc);
+            track.appendChild(clone);
+        });
     }
 
     let position = 0;
@@ -274,27 +264,23 @@ function createRow(rowId, direction, robotList){
 
     function animate(){
         position += (speed * direction);
-        
-        // Reset position for infinite loop
         if(direction === 1 && position >= trackWidth) position = 0;
         if(direction === -1 && position <= 0) position = trackWidth;
-
         track.style.transform = `translateX(${-position}px)`;
         animationIds[rowId] = requestAnimationFrame(animate);
     }
+
     animate();
 }
 
 function loadSeason(index){
     currentSeasonIndex = index;
     const s = seasons[index];
-    
-    // Reset Image and Buttons
+
     document.getElementById("mainImage").src = s.mainImage.front;
     document.querySelectorAll(".view-buttons button").forEach(b=>b.classList.remove("active"));
     document.getElementById("btn-front").classList.add("active");
 
-    // Load Rows
     createRow("row1", 1, s.robots_toprow);
     createRow("row2", -1, s.robots_middlerow);
     createRow("row3", 1, s.robots_bottomrow);
@@ -306,8 +292,8 @@ function selectTab(index, tabEl){
     loadSeason(index);
 }
 
-// Initial Load
 window.onload = () => loadSeason(0);
 </script>
+
 </body>
 </html>
