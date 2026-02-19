@@ -91,6 +91,303 @@ h1 {
 }
 
 .rotating-wrapper {
+    width:80%; /* match main-section width */
+    margin:40px auto 0 auto; /* center it with same margin */
+}
+
+.rotating-row {
+    position:relative;
+    height:140px;
+    margin:30px 0;
+    overflow:hidden;
+}
+
+.track {
+    display:flex;
+    gap:30px;
+}
+
+.rotating-card {
+    width:150px;
+    height:120px;
+    background:#3399ff;
+    border-radius:8px;
+    color:white;
+    text-align:center;
+    padding:10px;
+    flex-shrink:0;
+    cursor:pointer;
+}
+
+.rotating-card img {
+    width:60px;
+    height:60px;
+    object-fit:cover;
+    margin-bottom:5px;
+}
+
+#descriptionBox {
+    width:80%;
+    margin:40px auto 80px auto;
+    background:#3399ff;
+    padding:20px;
+    border-radius:10px;
+    color:white;
+    min-height:100px;
+}
+</style>
+</head>
+<body>
+
+<h1>Our Robots</h1>
+
+<div class="tabs">
+    <div class="tab active">23-24 Season</div>
+    <div class="tab">24-25 Season</div>
+    <div class="tab">25-26 Season</div>
+</div>
+
+<div class="main-section">
+    <div class="model-area">3D Model Area</div>
+
+    <div class="image-area">
+        <img id="mainImage" src="images/23_24_front.jpg">
+        <div class="view-buttons">
+            <button class="active" onclick="changeView('front',this)">Front View</button>
+            <button onclick="changeView('side',this)">Side View</button>
+            <button onclick="changeView('back',this)">Back View</button>
+        </div>
+    </div>
+</div>
+
+<div class="rotating-wrapper">
+    <div class="rotating-row" id="row1"></div>
+    <div class="rotating-row" id="row2"></div>
+    <div class="rotating-row" id="row3"></div>
+</div>
+
+<div id="descriptionBox">
+Click a robot card to see its description.
+</div>
+
+<script>
+// Season data
+const seasons = [
+  {
+    name: "23-24 Season",
+    mainImage: {
+        front: "images/23_24_front.jpg",
+        side: "images/side_2324.jpg",
+        back: "images/23_24_front.jpg"
+    },
+    robots: [
+      {title:"Alpha", img:"https://via.placeholder.com/60", desc:"Alpha robot 23-24."},
+      {title:"Beta", img:"https://via.placeholder.com/60", desc:"Beta robot 23-24."},
+      {title:"Gamma", img:"https://via.placeholder.com/60", desc:"Gamma robot 23-24."},
+      {title:"Omega", img:"https://via.placeholder.com/60", desc:"Omega robot 23-24."}
+    ]
+  },
+  {
+    name: "24-25 Season",
+    mainImage: {
+        front: "images/23_24_front.jpg",
+        side: "images/side_2324.jpg",
+        back: "images/23_24_front.jpg"
+    },
+    robots: [
+      {title:"Delta", img:"https://via.placeholder.com/60", desc:"Delta robot 24-25."},
+      {title:"Epsilon", img:"https://via.placeholder.com/60", desc:"Epsilon robot 24-25."},
+      {title:"Zeta", img:"https://via.placeholder.com/60", desc:"Zeta robot 24-25."},
+      {title:"Theta", img:"https://via.placeholder.com/60", desc:"Theta robot 24-25."}
+    ]
+  },
+  {
+    name: "25-26 Season",
+    mainImage: {
+        front: "images/23_24_front.jpg",
+        side: "images/side_2324.jpg",
+        back: "images/23_24_front.jpg"
+    },
+    robots: [
+      {title:"Iota", img:"https://via.placeholder.com/60", desc:"Iota robot 25-26."},
+      {title:"Kappa", img:"https://via.placeholder.com/60", desc:"Kappa robot 25-26."},
+      {title:"Lambda", img:"https://via.placeholder.com/60", desc:"Lambda robot 25-26."},
+      {title:"Mu", img:"https://via.placeholder.com/60", desc:"Mu robot 25-26."}
+    ]
+  }
+];
+
+let currentSeasonIndex = 0;
+
+// Update main image
+function changeView(view,btn){
+    document.getElementById("mainImage").src = seasons[currentSeasonIndex].mainImage[view];
+    document.querySelectorAll(".view-buttons button").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+}
+
+// Update description box
+function showDescription(text){
+    document.getElementById("descriptionBox").textContent = text;
+}
+
+// Create a seamless rotating row bounded by wrapper
+function createRow(rowId, direction, robotList){
+    const row = document.getElementById(rowId);
+    row.innerHTML = "";
+
+    const track = document.createElement("div");
+    track.className = "track";
+    row.appendChild(track);
+
+    // Duplicate robots until track width > wrapper width
+    const wrapperWidth = row.parentElement.offsetWidth; // bound to wrapper
+    while(track.scrollWidth < wrapperWidth*2){
+        robotList.forEach(robot=>{
+            const card = document.createElement("div");
+            card.className = "rotating-card";
+            card.innerHTML = `<img src="${robot.img}"><div>${robot.title}</div>`;
+            card.onclick = () => showDescription(robot.desc);
+            track.appendChild(card);
+        });
+    }
+
+    let position = direction===1 ? 0 : track.scrollWidth/2;
+    const trackWidth = track.scrollWidth/2;
+    const speed = 0.5;
+
+    function animate(){
+        if(direction===1){
+            position += speed;
+            if(position >= trackWidth) position -= trackWidth;
+            track.style.transform = `translateX(${-position}px)`;
+        } else {
+            position -= speed;
+            if(position <= 0) position += trackWidth;
+            track.style.transform = `translateX(${-position}px)`;
+        }
+        requestAnimationFrame(animate);
+    }
+    animate();
+}
+
+// Populate all rows for a season
+function loadSeason(index){
+    currentSeasonIndex = index;
+    const robots = seasons[index].robots;
+    document.getElementById("mainImage").src = seasons[index].mainImage.front;
+
+    createRow("row1",1,robots);
+    createRow("row2",-1,robots);
+    createRow("row3",1,robots);
+}
+
+// Tab click logic
+document.querySelectorAll(".tab").forEach((tab,index)=>{
+    tab.onclick = () => {
+        document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+        tab.classList.add("active");
+        loadSeason(index);
+    };
+});
+
+// Load first season on page load
+loadSeason(0);
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Robots</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:Arial, sans-serif; }
+body { background:#99ccff; color:#001f4d; overflow-x:hidden; }
+
+h1 {
+    margin-top:60px;
+    margin-left:10%;
+    font-size:36px;
+}
+
+.tabs {
+    margin-left:10%;
+    margin-top:30px;
+    display:flex;
+    gap:40px;
+}
+
+.tab {
+    font-size:18px;
+    padding:8px 18px;
+    cursor:pointer;
+    border-radius:50px;
+    border:2px solid transparent;
+    transition:all 0.3s ease;
+}
+
+.tab.active {
+    border:2px solid #001f4d;
+}
+
+.main-section {
+    width:80%;
+    margin:50px auto;
+    display:flex;
+    gap:40px;
+}
+
+.model-area, .image-area {
+    flex:1;
+    background:#3399ff;
+    height:400px;
+    border-radius:10px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+    color:white;
+}
+
+.image-area img {
+    width:80%;
+    height:70%;
+    object-fit:cover;
+    border-radius:8px;
+}
+
+.view-buttons {
+    position:absolute;
+    bottom:20px;
+    display:flex;
+    gap:12px;
+}
+
+.view-buttons button {
+    background:#ffffff;
+    color:#001f4d;
+    border:none;
+    padding:8px 18px;
+    border-radius:30px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:all 0.25s ease;
+    box-shadow:0 3px 8px rgba(0,0,0,0.2);
+}
+
+.view-buttons button:hover {
+    background:#001f4d;
+    color:#ffffff;
+    transform:translateY(-2px);
+}
+
+.view-buttons button.active {
+    background:#001f4d;
+    color:#ffffff;
+}
+
+.rotating-wrapper {
     width:100%;
     margin-top:40px;
 }
