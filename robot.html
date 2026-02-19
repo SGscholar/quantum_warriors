@@ -180,7 +180,19 @@ const seasons = [
         side: "images/side_2324.jpg",
         back: "images/23_24_front.jpg"
     },
-    robots: [
+    robots_toprow: [
+      {title:"Alpha", img:"https://via.placeholder.com/60", desc:"Alpha robot 23-24."},
+      {title:"Beta", img:"https://via.placeholder.com/60", desc:"Beta robot 23-24."},
+      {title:"Gamma", img:"https://via.placeholder.com/60", desc:"Gamma robot 23-24."},
+      {title:"Omega", img:"https://via.placeholder.com/60", desc:"Omega robot 23-24."}
+    ],
+    robots_middlerow: [
+      {title:"Alpha", img:"https://via.placeholder.com/60", desc:"Alpha robot 23-24."},
+      {title:"Beta", img:"https://via.placeholder.com/60", desc:"Beta robot 23-24."},
+      {title:"Gamma", img:"https://via.placeholder.com/60", desc:"Gamma robot 23-24."},
+      {title:"Omega", img:"https://via.placeholder.com/60", desc:"Omega robot 23-24."}
+    ],
+    robots_bottomrow: [
       {title:"Alpha", img:"https://via.placeholder.com/60", desc:"Alpha robot 23-24."},
       {title:"Beta", img:"https://via.placeholder.com/60", desc:"Beta robot 23-24."},
       {title:"Gamma", img:"https://via.placeholder.com/60", desc:"Gamma robot 23-24."},
@@ -274,15 +286,17 @@ function createRow(rowId, direction, robotList){
 // Populate all rows for a season
 function loadSeason(index){
     currentSeasonIndex = index;
-    const robots = seasons[index].robots;
+    const uprobots = seasons[index].robots_toprow;
+    const midrobots = seasons[index].robots_middlerow;
+    const botrobots = seasons[index].robots_lastrow;
     document.getElementById("mainImage").src = seasons[index].mainImage.front;
 
-    createRow("row1",1,robots);
-    createRow("row2",-1,robots);
+    createRow("row1",1,toprobots);
+    createRow("row2",-1,midrobots);
     if(index != 0){
-        createRow("row3",1,robots);
+        createRow("row3",1,botrobots);
     }else{
-        createRow("row3",1,[])
+        createRow("row3",1,[]);
     }
     
 }
